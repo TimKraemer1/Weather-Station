@@ -21,7 +21,7 @@ def parse_data():
     temperature_time += timedelta(hours=5)
     temperature_time = temperature_time.strftime('%H:%M:%S')
     try:
-        with open('flask_test/tempdata.csv', 'a') as f:
+        with open('Weather-Station/Server-side/Backend/tempdata.csv', 'a') as f:
             f.write('{},{}\n'.format(temperature_time, temperature_data))
             f.close()
     except:
@@ -32,7 +32,7 @@ def parse_data():
 @app.route('/get_updated_value')
 def get_updated_value():
     # Return the updated value to the client
-    with open('flask_test/output.txt', 'r') as txt_file:
+    with open('Weather-Station/Server-side/Backend/tempdata.csv', 'r') as txt_file:
         last_line = txt_file.readlines()[-1]
         updated_temp = last_line + '°F'
         txt_file.close()
