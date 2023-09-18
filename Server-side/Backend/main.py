@@ -1,6 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from datetime import datetime, timedelta
 import hashlib
+import pandas as pd
+import matplotlib.pyplot as plt
 
 #creates random sequence for secure data transmission
 #url = hashlib.md5("Walnut&Chestnut".encode('utf-8')).hexdigest()
@@ -43,5 +45,5 @@ def get_updated_value():
 
 @app.route('/temp_graph')
 def get_temp_graph():
-    with open('flask_test/output.txt', "rbU") as f:
-        num_lines = sum(1 for _ in f)
+    df = pd.read_csv('tempdata.csv')
+    plt.plot(df['time'].tail(8640), df['temp'].tail(8640))
