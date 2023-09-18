@@ -2,7 +2,10 @@ from flask import Flask, render_template, jsonify, request
 from datetime import datetime, timedelta
 import hashlib
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
+
+matplotlib.use('agg')
 
 #creates random sequence for secure data transmission
 #url = hashlib.md5("Walnut&Chestnut".encode('utf-8')).hexdigest()
@@ -23,7 +26,7 @@ def parse_data():
     temperature_time += timedelta(hours=5)
     temperature_time = temperature_time.strftime('%H:%M:%S')
     try:
-        with open('Weather-Station/Server-side/Backend/tempdata.csv', 'a') as f:
+        with open('/Users/timkraemer/Desktop/Weather-Station/Server-side/Backend/tempdata.cs', 'a') as f:
             f.write('{},{}\n'.format(temperature_time, temperature_data))
             f.close()
     except:
@@ -45,5 +48,14 @@ def get_updated_value():
 
 @app.route('/temp_graph')
 def get_temp_graph():
-    df = pd.read_csv('tempdata.csv')
+    df = pd.read_csv('/Users/timkraemer/Desktop/Weather-Station/Server-side/Backend/tempdata.csv')
     plt.plot(df['time'].tail(8640), df['temp'].tail(8640))
+    plt.xlabel('Time')
+    plt.ylabel('Temperature')
+    plt.xticks(df['time'].tail(8640), rotation=90)
+    plt.tight_layout()
+    plt.savefig('/Users/timkraemer/Desktop/Weather-Station/Server-side/Backend/24hTemp.png')
+    return "Success"
+
+if __name__ == '__main__':
+   app.run(debug = True)
