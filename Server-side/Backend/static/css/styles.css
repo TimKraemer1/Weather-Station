@@ -1,0 +1,28 @@
+:root {
+    --color-light-cyan: #b33fe6;
+    --color-blue: #88b7c7;
+    --color-dark-cyan: #506569;
+    --color-very-dark-cyan: #25424d;
+    --color-gray-lime: #d0d3d0;
+    --color-text-primary: #555555;
+    --color-text-secondary: #989898;
+    --color-very-light-cyan: #f2f5f6;
+    --color-bg-light-gray: #dfdfdf;
+    --color-success: #6b9d38;
+    --color-danger: #de7f7f;
+    --color-primary: #65b6d5;
+    --color-secondary: #9fc0cd;
+    --color-text-1: #333;
+    --color-text-3: #d0d0d0;
+    --color-focus: #4d90fe;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.background-cyan {
+    background: linear-gradient(to right, var(--color-light-cyan), var(--color-blue));
+}
