@@ -1,21 +1,81 @@
-<html> 
-    <head>
-        <title>Weather Station Dashboard</title>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/styles.css') }}"> 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Weather Station Dashboard</title>
 
-    </head>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/65a2ce654f.js" crossorigin="anonymous"></script>
+</head>
+<body>
 
-    <body>
+    <nav>
+        <div class="title">
+            <p>Smart Weather Station</p>
+        </div>
         <ul>
-            <li id="Date">Date</li>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
-            <li><a href="https://github.com/TimKraemer1/Weather-Station" target="_blank">GitHub</a></li>
+            <li><a href="https://github.com/TimKraemer1/Weather-Station">Project Github</a></li>
         </ul>
+    </nav>
 
-        <div id="about">
-            This Weather Station, created by Tim Kraemer, is a personal project
-            that delves into the intricacies of IoT/smart sensing.
+    <footer>
+        <div class="footer-content">
+            <h3>📍 Located in Santa Cruz, CA</h3>
+            <p>Just a simple weather station that collects current data and displays it in a simple manner
+                <br>For more about me, or to see my other coding projects and work, visit these links:
+            </p>
+            <ul class="socials">
+                <li><a href="#"><i class="fa-brands fa-github"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+            </ul>
         </div>
-    </body>
+        <div class="footer-bottom">
+            <p>copyright &copy;2023 Tim Kraemer. designed by <span>Tim Kraemer</span></p>
+        </div>
+    </footer>
+
+    <script>
+        function updateValue(value) {
+            document.getElementById('updated-value').textContent = value;
+        }
+
+        function fetchUpdatedValue() {
+            fetch('/get_updated_value')  // Replace with the appropriate API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.value) {
+                        updateValue(data.value);
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function updatePngImage() {
+            // Make an HTTP request to fetch the PNG image
+            fetch('/temp_graph')
+                .then(response => response.blob())
+                .then(blob => {
+                    // Create an object URL from the fetched blob
+                    const url = URL.createObjectURL(blob);
+
+                    // Update the src attribute of the image element
+                    document.getElementById('pngImage').src = url;
+                });
+        }
+
+        setInterval(function() {
+            fetchUpdatedValue();
+            updatePngImage();
+        }, 5000); //Run every 10 seconds
+
+        fetchUpdatedValue();
+        updatePngImage();
+
+    </script>
+
+</body>
 </html>
